@@ -1,0 +1,90 @@
+# LLM驱动的动态损失函数权重配置
+
+# LLM设置
+llm:
+  enabled: true                    # 是否启用LLM
+  model_name: "deepseek-chat"      # 模型名称: "gpt-3.5-turbo", "gpt-4", "claude-2", "claude-instant-1", "deepseek-chat"
+  temperature: 0.2                 # 生成温度, 越低越确定性
+  cache_dir: null         # 权重缓存目录, null表示不使用缓存
+  verbose: true                    # 是否输出详细日志
+  
+  # API密钥 (推荐通过环境变量设置)
+  # 如果这里未设置且环境变量中也未设置, 会在初始化时报错
+  api_key: "sk-83e3d94bd0b048ad80290f7516a1cb2d"
+
+# 风险函数设置
+risk_functions:
+  # 纵向风险
+  L_TTC:
+    description: "碰撞时间损失，衡量与前方车辆即将发生追尾碰撞的紧迫程度"
+    default_weight: 1.5
+    enabled: true
+    mapping: "ttc"
+    
+  L_THW:
+    description: "车头时距损失，衡量跟车距离的安全裕度"
+    default_weight: 0.0  # 默认未启用
+    enabled: false
+    mapping: "thw"
+  
+  L_DeltaV:
+    description: "相对速度损失，直接衡量相对接近速度"
+    default_weight: 0.0  # 默认未启用
+    enabled: false
+    mapping: "delta_v"
+  
+  # 横向风险
+  L_TLC:
+    description: "穿道时间损失，衡量车辆偏离当前车道的紧迫程度"
+    default_weight: 0.0  # 默认未启用
+    enabled: false
+    mapping: "tlc"
+  
+  L_MinDist_lat:
+    description: "横向最小距离损失，衡量与侧方车辆的空间距离是否过近"
+    default_weight: 1.0
+    enabled: true
+    mapping: "min_dist_lat"
+  
+  L_YawRate:
+    description: "横摆角速度损失，衡量车辆转向动作的剧烈和稳定程度"
+    default_weight: 0.8
+    enabled: true
+    mapping: "yaw_rate"
+  
+  # 环境风险
+  L_Collision:
+    description: "碰撞损失，衡量车辆之间是否发生物理碰撞"
+    default_weight: 20.0
+    enabled: true
+    mapping: "coll_veh"
+  
+  L_OffRoad:
+    description: "驶离道路损失，衡量车辆是否冲出道路边界"
+    default_weight: 20.0
+    enabled: true
+    mapping: "coll_env"
+  
+  L_PathAdherence:
+    description: "路径依从损失，衡量车辆是否精确地沿着预设路径行驶"
+    default_weight: 0.0  # 默认未启用
+    enabled: false
+    mapping: "path_adherence"
+
+# 场景描述设置
+scenario:
+  identify_risks: true              # 是否识别潜在风险点
+  include_map_info: true            # 是否包含地图信息
+  max_description_length: 3000     # 场景描述最大长度
+  
+# 权重更新设置
+weight_update:
+  update_frequency: "per_batch"      # 权重更新频率: "per_batch", "per_epoch", "once"
+  save_history: true                 # 是否保存权重变化历史
+  history_path: "./weight_history"   # 权重历史保存路径
+  
+# 集成设置
+integration:
+  log_level: "INFO"                 # 日志级别: "DEBUG", "INFO", "WARNING", "ERROR"
+  evaluation_enabled: true          # 是否启用评估框架
+  comparison_with_static: true      # 是否与静态权重进行比较 

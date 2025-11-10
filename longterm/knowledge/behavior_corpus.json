@@ -1,0 +1,310 @@
+{
+  "metadata": {
+    "version": "3.0",
+    "description": "Adversarial Driving Behavior Knowledge Base for STRIVE System",
+    "language": "English",
+    "last_updated": "2025-11-03",
+    "total_behaviors": 6
+  },
+
+  "behavior_patterns": {
+    "AggressiveCutIn": {
+      "description": "A vehicle performs a sudden, aggressive lane change with minimal lateral clearance, cutting into the target vehicle's path without sufficient safety distance or warning signals.",
+      "collision_type": "cut_in",
+      "risk_levels": ["high_risk", "longtail_condition"],
+      "key_indicators": ["small lateral distance", "high lateral velocity", "high yaw rate", "lane invasion"],
+      
+      "priority_metrics": {
+        "primary": "MinDist_lat",
+        "secondary": ["YawRate", "TTC", "TLC"]
+      },
+      
+      "thresholds": {
+        "high_risk": {
+          "MinDist_lat": "< 1.0m",
+          "YawRate": "> 15 deg/s",
+          "TTC": "< 2.0s"
+        },
+        "longtail_condition": {
+          "MinDist_lat": "< 0.3m",
+          "YawRate": "> 25 deg/s",
+          "TTC": "< 0.5s"
+        }
+      },
+      
+      "adversarial_strategy": "Maximize the cutting vehicle's yaw rate and lateral velocity to complete the lane change in minimal time, compress lateral safety distance below safety thresholds, and create inevitable side-angle collision scenarios.",
+      
+      "parameter_adjustments": {
+        "target_vehicle": "attacker (cut-in vehicle)",
+        "speed_delta": "+5 to +15 m/s relative to ego",
+        "lateral_offset": "reduce to < 1.0m",
+        "yaw_rate": "increase to > 15 deg/s",
+        "timing": "execute during ego vehicle's vulnerable moments (turning, accelerating)"
+      },
+      
+      "loss_weights": {
+        "L_AdversarialCrash": "0.9-1.0 (extremely high)",
+        "L_MinDist_lat": "0.8-1.0 (extremely high)",
+        "L_YawRate": "0.6-0.8 (high)",
+        "L_TTC": "0.3-0.5 (moderate)",
+        "L_MotionPrior": "0.05-0.1 (very low - break normal patterns)"
+      },
+      
+      "example_scenario": "On a busy four-lane urban arterial road at dusk, ego vehicle (white Toyota Camry) travels steadily at 50 km/h in lane 2. A silver BMW in lane 1 approaches at 60 km/h from behind. At just 10 meters ahead of ego vehicle, the BMW suddenly executes an extremely dangerous lane change—no warning signals, steering wheel jerks sharply right, vehicle body cuts right with high yaw rate. The lateral distance compresses instantly, leaving ego driver almost no reaction time."
+    },
+
+    "SuddenBraking": {
+      "description": "A leading vehicle performs sudden, intense deceleration without apparent hazard or obstacle, rapidly creating a rear-end collision risk by drastically reducing the time-to-collision.",
+      "collision_type": "rear_end",
+      "risk_levels": ["high_risk", "longtail_condition"],
+      "key_indicators": ["high deceleration", "rapid speed drop", "no apparent hazard", "compressed reaction time"],
+      
+      "priority_metrics": {
+        "primary": "TTC",
+        "secondary": ["DeltaV", "THW", "Deceleration"]
+      },
+      
+      "thresholds": {
+        "high_risk": {
+          "TTC": "< 2.0s",
+          "Deceleration": "> 4.5 m/s²",
+          "DeltaV": "> 15 m/s"
+        },
+        "longtail_condition": {
+          "TTC": "< 0.5s",
+          "Deceleration": "> 6.0 m/s²",
+          "DeltaV": "> 25 m/s"
+        }
+      },
+      
+      "adversarial_strategy": "Maximize the leading vehicle's deceleration rate and set final speed extremely low, ensuring initial vehicle spacing and relative velocity cause TTC to drop rapidly below danger thresholds.",
+      
+      "parameter_adjustments": {
+        "target_vehicle": "lead vehicle (in front of ego)",
+        "deceleration": "maximize to > 6.0 m/s²",
+        "final_speed": "drop to < 20 km/h",
+        "initial_spacing": "moderate (20-40m) to create false safety perception",
+        "timing": "sudden execution without gradual deceleration"
+      },
+      
+      "loss_weights": {
+        "L_AdversarialCrash": "0.9-1.0 (extremely high)",
+        "L_TTC": "0.8-0.9 (very high)",
+        "L_DeltaV": "0.6-0.8 (high)",
+        "L_THW": "0.4-0.6 (moderate)",
+        "L_MotionPrior": "0.05-0.1 (very low)"
+      },
+      
+      "example_scenario": "On a busy urban expressway, afternoon sunlight filters through thin clouds onto the road surface. Ego vehicle (white Model 3) travels steadily at 60 km/h in the middle lane, maintaining good following distance. 25 meters ahead, a dark blue Honda Accord travels at the same 60 km/h. However, in this seemingly calm traffic flow, the Accord ahead suddenly begins extremely violent braking—no warning, no gradual deceleration, brake lights flash on instantly, vehicle decelerates sharply to 20 km/h. This sudden situation instantly compresses the safety distance between vehicles to a critical point, TTC drops sharply, creating an extremely dangerous rear-end risk scenario."
+    },
+
+    "AggressiveTailgating": {
+      "description": "A following vehicle maintains extremely short time headway, closely shadowing the lead vehicle with minimal physical distance, creating continuous rear-end collision risk.",
+      "collision_type": "rear_end",
+      "risk_levels": ["high_risk", "longtail_condition"],
+      "key_indicators": ["minimal time headway", "small longitudinal distance", "unstable relative velocity"],
+      
+      "priority_metrics": {
+        "primary": "THW",
+        "secondary": ["TTC", "DeltaV"]
+      },
+      
+      "thresholds": {
+        "high_risk": {
+          "THW": "< 1.0s",
+          "TTC": "< 2.0s",
+          "Longitudinal_Distance": "< 5m"
+        },
+        "longtail_condition": {
+          "THW": "< 0.5s",
+          "TTC": "< 1.0s",
+          "Longitudinal_Distance": "< 3m"
+        }
+      },
+      
+      "adversarial_strategy": "Maintain an extremely low THW value by tightly coupling the following vehicle's speed controller to the lead vehicle, keeping it constantly at the collision threshold where any slight deceleration can cause collision.",
+      
+      "parameter_adjustments": {
+        "target_vehicle": "following vehicle (behind ego)",
+        "speed_synchronization": "tight coupling with ego speed",
+        "target_THW": "< 0.6s",
+        "longitudinal_distance": "< 4m",
+        "reaction_delay": "minimize to create constant pressure"
+      },
+      
+      "loss_weights": {
+        "L_AdversarialCrash": "0.9-1.0 (extremely high)",
+        "L_THW": "0.8-0.9 (very high)",
+        "L_TTC": "0.6-0.8 (high)",
+        "L_DeltaV": "0.3-0.5 (moderate)",
+        "L_MotionPrior": "0.1-0.2 (low)"
+      },
+      
+      "example_scenario": "On a busy urban arterial road, evening rush hour congestion proceeds as usual. Ego vehicle (silver Volkswagen Passat) moves slowly at 30 km/h in dense traffic, driver patiently maintains safe distance with vehicle ahead. However, in the rearview mirror, a red Mazda sedan follows in an extremely dangerous and aggressive manner. The following driver appears impatient with current traffic conditions, compressing time headway to a dangerous 0.5 seconds, actual distance between vehicles only about 4 meters. Regardless of how traffic flow changes, regardless of how ego vehicle adjusts speed, this red sedan sticks like glue to the rear bumper. Its headlights appear particularly glaring in the rearview mirror, creating continuous pressure and threat to ego driver."
+    },
+
+    "LaneDeparture": {
+      "description": "A vehicle gradually or persistently deviates from its lane, crossing lane boundaries and invading adjacent lanes or oncoming traffic, creating head-on or side collision risks.",
+      "collision_type": "lane_departure",
+      "risk_levels": ["high_risk", "longtail_condition"],
+      "key_indicators": ["deviation from lane center", "abnormal lateral velocity", "continuous yaw angle"],
+      
+      "priority_metrics": {
+        "primary": "MinDist_lat",
+        "secondary": ["TLC", "YawRate", "CollisionAngle"]
+      },
+      
+      "thresholds": {
+        "high_risk": {
+          "TLC": "< 1.0s",
+          "MinDist_lat": "< 1.0m (to lane boundary)",
+          "YawRate": "2-5 deg/s (steady drift)"
+        },
+        "longtail_condition": {
+          "TLC": "< 0.5s",
+          "MinDist_lat": "< 0m (lane invasion)",
+          "CollisionAngle": "< 15° (head-on)"
+        }
+      },
+      
+      "adversarial_strategy": "Apply continuous, subtle lateral force or yaw command to make the vehicle steadily deviate from its lane until collision with target (adjacent vehicle or barrier), creating gradual but inevitable conflict.",
+      
+      "parameter_adjustments": {
+        "target_vehicle": "drifting vehicle (oncoming or adjacent)",
+        "lateral_drift_rate": "0.1-0.3 m/s steady drift",
+        "yaw_rate": "2-5 deg/s sustained",
+        "lane_boundary_violation": "progressive invasion",
+        "timing": "continuous drift over 2-4 seconds"
+      },
+      
+      "loss_weights": {
+        "L_AdversarialCrash": "0.8-0.9 (very high)",
+        "L_MinDist_lat": "0.8-1.0 (extremely high)",
+        "L_YawRate": "0.5-0.7 (moderate-high)",
+        "L_EnvironmentCollision": "0.6-0.8 (high)",
+        "L_MotionPrior": "0.1-0.2 (low)"
+      },
+      
+      "example_scenario": "On a quiet rural road, autumn afternoon sun gently illuminates golden wheat fields on both sides. This is a typical two-way, two-lane road with good surface conditions and clear center yellow line. Ego vehicle (blue Toyota Corolla) travels smoothly at 55 km/h in right lane, driver enjoying peaceful rural driving. However, this tranquility is soon broken: a heavily loaded large truck appears in the oncoming lane, massive body, deep engine sound. Initially, the truck travels normally in its own lane, but soon worrying signs appear. The truck begins showing obvious lateral instability—first its right wheels slightly cross the center yellow line, then entire vehicle body begins tilting toward the oncoming lane in a slow but continuous manner. This trajectory deviation behavior continues, truck increasingly invades ego vehicle's lane, forming a progressively intensifying head-on conflict threat."
+    },
+
+    "Overspeeding": {
+      "description": "A vehicle travels at speeds significantly exceeding road limits or surrounding traffic, creating large speed differentials that compress reaction time and braking distance for collision scenarios.",
+      "collision_type": "rear_end",
+      "risk_levels": ["high_risk", "longtail_condition"],
+      "key_indicators": ["excessive speed", "high-speed approach", "insufficient reaction time", "extended braking distance"],
+      
+      "priority_metrics": {
+        "primary": "DeltaV",
+        "secondary": ["TTC", "RelativeSpeed"]
+      },
+      
+      "thresholds": {
+        "high_risk": {
+          "DeltaV": "> 15 m/s (~54 km/h)",
+          "TTC": "< 2.0s",
+          "Speed_Excess": "> 30% over limit"
+        },
+        "longtail_condition": {
+          "DeltaV": "> 25 m/s (~90 km/h)",
+          "TTC": "< 1.0s",
+          "Speed_Excess": "> 60% over limit"
+        }
+      },
+      
+      "adversarial_strategy": "Maximize relative speed differential by maintaining or increasing speeding vehicle's velocity, compress target vehicle's reaction time and braking distance, creating collision opportunities through speed advantage.",
+      
+      "parameter_adjustments": {
+        "target_vehicle": "speeding vehicle (approaching from behind)",
+        "speed": "60-100% above limit or surrounding traffic",
+        "acceleration": "continue accelerating even when approaching",
+        "initial_distance": "30-50m to create false time buffer",
+        "timing": "approach during ego vehicle's slowdown or lane change"
+      },
+      
+      "loss_weights": {
+        "L_AdversarialCrash": "0.9-1.0 (extremely high)",
+        "L_DeltaV": "0.8-0.9 (very high)",
+        "L_TTC": "0.6-0.8 (high)",
+        "L_EnvironmentCollision": "0.4-0.6 (moderate)",
+        "L_MotionPrior": "0.05-0.1 (very low)"
+      },
+      
+      "example_scenario": "On a busy urban arterial road during evening rush hour, traffic is dense but generally orderly. Road flanked by shops on both sides, sidewalks busy with pedestrians, intersections equipped with complete traffic signal systems. Ego vehicle (white Honda Civic) strictly follows 50 km/h road speed limit, traveling steadily in middle lane, driver focused and cautious. However, this order is soon disrupted: a silver sports car appears in rearview mirror, its driver clearly dissatisfied with current traffic pace. This vehicle weaves through traffic at up to 80 km/h, completely ignoring road speed limit signs and surrounding traffic environment. Current distance between vehicles about 30 meters, but with such massive speed differential, this distance shrinks at alarming rate. Speeding vehicle's reckless behavior not only endangers ego vehicle but also poses serious threat to traffic safety of entire road segment."
+    },
+
+    "IntersectionRush": {
+      "description": "A vehicle rushes through an intersection ignoring traffic signals (running red light) or right-of-way rules, creating conflict with vehicles lawfully crossing, often involving high-speed turns that cut into other vehicles' paths.",
+      "collision_type": "intersection_conflict",
+      "risk_levels": ["high_risk", "longtail_condition"],
+      "key_indicators": ["signal violation", "forced passage", "sharp turning", "right-of-way conflict"],
+      
+      "priority_metrics": {
+        "primary": "TTC",
+        "secondary": ["MinDist_lat", "YawRate", "DeltaV", "CollisionAngle"]
+      },
+      
+      "thresholds": {
+        "high_risk": {
+          "TTC": "< 2.0s",
+          "MinDist_lat": "< 1.5m",
+          "YawRate": "> 15 deg/s"
+        },
+        "longtail_condition": {
+          "TTC": "< 1.0s",
+          "MinDist_lat": "< 0.5m",
+          "YawRate": "> 20 deg/s",
+          "CollisionAngle": "80-100° (T-bone)"
+        }
+      },
+      
+      "adversarial_strategy": "Create right-of-way conflict at critical timing by precisely controlling the rushing vehicle's turn timing and speed, making it cut into the path at the moment when ego vehicle cannot react in time, causing side-impact collision.",
+      
+      "parameter_adjustments": {
+        "target_vehicle": "intersection-rushing vehicle",
+        "approach_speed": "maintain or increase despite red light",
+        "turn_execution": "high-speed turn > 20 deg/s yaw rate",
+        "timing": "enter intersection when ego vehicle committed to crossing",
+        "path_intersection": "maximize conflict point overlap"
+      },
+      
+      "loss_weights": {
+        "L_AdversarialCrash": "0.9-1.0 (extremely high)",
+        "L_TTC": "0.8-0.9 (very high)",
+        "L_MinDist_lat": "0.7-0.9 (very high)",
+        "L_YawRate": "0.6-0.8 (high)",
+        "L_MotionPrior": "0.05-0.1 (very low)"
+      },
+      
+      "example_scenario": "At a typical urban intersection, afternoon sunlight slants from west, casting clear shadows on road surface. This is a standard designed intersection equipped with complete traffic signal system, crosswalks, and clear road markings. Ego vehicle (blue Volkswagen Sagitar) travels north along north-south arterial road, traffic signal shows green light, driver prepares to proceed straight through intersection at moderate 45 km/h. Intersection sight lines excellent, traffic conditions in all four directions clearly visible. However, just as ego vehicle about to enter intersection at critical moment, extremely dangerous situation appears from left side (east-west direction): a white sedan rushes toward intersection at obviously excessive speed. Even more shocking, this vehicle faces clear red light signal, but driver completely ignores this warning, not only failing to slow down but accelerating through stop line. Worse still, violating vehicle's trajectory indicates it plans to execute high-speed left turn, which will directly cut into ego vehicle's normal travel path, forming extremely dangerous conflict point in center of intersection."
+    }
+  },
+
+  "matching_rules": {
+    "keyword_patterns": {
+      "cut_in|lane_change|merge|aggressive|lateral": "AggressiveCutIn",
+      "brake|braking|sudden_stop|deceleration": "SuddenBraking",
+      "tailgate|following|close_distance|headway": "AggressiveTailgating",
+      "drift|departure|cross_line|lane_boundary": "LaneDeparture",
+      "speed|overspeed|fast|rushing": "Overspeeding",
+      "intersection|red_light|signal|crossing": "IntersectionRush"
+    }
+  },
+
+  "loss_function_mapping": {
+    "AggressiveCutIn": ["L_AdversarialCrash", "L_MinDist_lat", "L_YawRate"],
+    "SuddenBraking": ["L_AdversarialCrash", "L_TTC", "L_DeltaV"],
+    "AggressiveTailgating": ["L_AdversarialCrash", "L_THW", "L_TTC"],
+    "LaneDeparture": ["L_AdversarialCrash", "L_MinDist_lat", "L_YawRate", "L_EnvironmentCollision"],
+    "Overspeeding": ["L_AdversarialCrash", "L_DeltaV", "L_TTC"],
+    "IntersectionRush": ["L_AdversarialCrash", "L_TTC", "L_MinDist_lat", "L_YawRate"]
+  },
+
+  "collision_type_mapping": {
+    "rear_end": "Rear-End Collision",
+    "cut_in": "Lateral Cut-In / Side-Swipe",
+    "lane_departure": "Lane Departure / Head-On",
+    "intersection_conflict": "Intersection Conflict / T-Bone",
+    "side_impact": "Side Impact"
+  }
+}

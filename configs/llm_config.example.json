@@ -1,0 +1,45 @@
+{
+  "_comment": "这是LLM配置示例文件。复制此文件为 llm_config.json 并填入你的API密钥",
+  "default_provider": "deepseek",
+  "providers": {
+    "deepseek": {
+      "api_key": "sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "base_url": "https://api.deepseek.com/v1",
+      "model": "deepseek-chat",
+      "temperature": 0.7,
+      "max_tokens": 2000
+    },
+    "openai": {
+      "api_key": "sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "base_url": "https://api.openai.com/v1",
+      "model": "gpt-4o",
+      "temperature": 0.7,
+      "max_tokens": 2000
+    },
+    "claude": {
+      "api_key": "sk-ant-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "base_url": "https://api.anthropic.com/v1",
+      "model": "claude-sonnet-4",
+      "temperature": 0.7,
+      "max_tokens": 2000
+    },
+    "anthropic": {
+      "api_key": "sk-ant-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "base_url": "https://api.anthropic.com/v1",
+      "model": "claude-sonnet-4",
+      "temperature": 0.7,
+      "max_tokens": 2000
+    }
+  },
+  "cache": {
+    "enabled": true,
+    "cache_dir": "./llm_cache",
+    "ttl": 86400
+  },
+  "logging": {
+    "enabled": true,
+    "log_dir": "./llm_logs",
+    "level": "INFO"
+  }
+}
+

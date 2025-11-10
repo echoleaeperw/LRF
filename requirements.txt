@@ -1,0 +1,47 @@
+# PyTorch和相关库
+--find-links https://download.pytorch.org/whl/torch_stable.html
+torch==1.9.0+cu111 
+torchvision==0.10.0+cu111
+torchaudio==0.9.0
+
+# PyTorch Geometric
+--find-links https://pytorch-geometric.com/whl/torch-1.9.0+cu111.html
+torch-scatter==2.0.7
+torch-sparse==0.6.10
+torch-geometric==1.7.1
+
+# 基础科学计算库
+numpy==1.19.5
+matplotlib==3.3.4
+
+# 配置和工具
+pyyaml==5.4.1
+ConfigArgParse==1.5
+
+# 实验追踪
+wandb==0.10.32
+
+# 数据集
+nuscenes-devkit==1.1.5
+
+# LLM集成
+openai>=1.0.0
+anthropic>=0.7.0
+requests>=2.28.0
+
+# 日志和缓存
+tqdm>=4.62.0
+joblib>=1.1.0
+
+# 可视化
+opencv-python>=4.5.0
+pillow>=8.3.0
+
+# 其他工具
+scipy>=1.7.0
+scikit-learn>=0.24.0
+
+# 注意：
+# 1. 如果使用不同CUDA版本，请相应修改torch和torch-geometric的版本
+# 2. 建议使用Python 3.8
+# 3. nuScenes数据集需要单独下载
