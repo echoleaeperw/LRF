@@ -1,6 +1,6 @@
 # Learning from Risk: LLM-Guided Generation of Safety-Critical Scenarios with Prior Knowledge
 
-[LFR_Framework](Fig_1.png)
+![LFR_Framework](Fig_1.png)
 
      
 ## Installation
