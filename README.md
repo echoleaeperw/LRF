@@ -18,9 +18,9 @@
 
 ## Initial scene generation
 
+---------------
 
-
-### Generation of scenarios with different risk levels
+## Generation of scenarios with different risk levels
 
 Run the following command, and you can replace llm_model with your own model.
 
