@@ -1,15 +1,12 @@
 # Learning from Risk: LLM-Guided Generation of Safety-Critical Scenarios with Prior Knowledge
 
-
+![LFR_Framework](Fig_1.pdf)
 
      
-
-```
-
 ## 🚀 快速开始
 ### 1. 环境设置
 
-```bash
+
 # 克隆仓库
 git clone https://github.com/YOUR_USERNAME/LRF.git
 cd LRF
@@ -20,7 +17,6 @@ conda activate lrf
 
 # 安装依赖
 pip install -r requirements.txt
-```
 
 ### 2. 初始场景生成
 
@@ -29,14 +25,14 @@ pip install -r requirements.txt
 
 结合梯度优化和LLM引导的场景生成：
 
-```bash
+
 python src/adv_scenario_gen.py \
     --config configs/adv_gen_rule_based.cfg \
     --ckpt model_ckpt/traffic_model.pth \
     --use_llm \
     --llm_model deepseek-chat
-```
-### 4.TODO List
+
+### 4. TODO List
 
 ## 🏗️ 项目结构
 
@@ -86,7 +82,7 @@ LRF/
 如果使用本项目，请引用：
 
 ```bibtex
-@inproceedings{ding2022strive,
+@inproceedings{,
   title={Learning from Risk: LLM-Guided Generation of Safety-Critical Scenarios with Prior Knowledge},
   author={...},
   booktitle={CVPR},
