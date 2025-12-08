@@ -18,6 +18,11 @@
 
 ## Initial scene generation
 
+nuscenes：
+ ```bash
+    python src/train_traffic.py --config ./configs/train_traffic.cfg
+ ```
+
 ---------------
 
 ## Generation of scenarios with different risk levels
@@ -29,56 +34,15 @@ Run the following command, and you can replace llm_model with your own model.
          --config configs/adv_gen_rule_based.cfg \
          --ckpt model_ckpt/traffic_model.pth \
          --use_llm \
-         --llm_model deepseek-chat
+         --llm_model deepseek-reason
      ```
 
 
 ## 4. TODO List
 
 
-## 🏗️ 项目结构
+## 🏗️ Results Display
 
-```
-LRF/
-├── configs/              
-│   ├── llm_config.json          
-│   ├── llm_weights_config.yaml   
-│   ├── adv_gen_*.cfg             
-│   └── eval_planner.cfg          
-├── src/                  
-│   ├── models/          
-│   ├── losses/          
-│   ├── datasets/       
-│   ├── planners/        
-│   ├── llm/             
-│   └── utils/           
-├── longterm/            
-│   ├── agents/          
-│   │   ├── analysis.py     
-│   │   ├── driver.py      
-│   │   ├── flow.py         
-│   │   └── reflection.py   
-│   ├── core/           
-│   │   ├── llm_factory.py     
-│   │   ├── json_parser.py      
-│   │   └── content_processor.py # 内容处理
-│   └── knowledge/      
-│       ├── behavior_corpus.json    
-│       └── scenario_physics_knowledge_base.json
-├── data/               
-│   ├── nuscenes/       
-│   ├── clustering/     
-│   └── scenarios/      
-├── model_ckpt/         
-├── outputs/            
-├── logs/               
-├── evaluate_traffic_model_cvae.py  
-├── run_adversarial_evaluation.py   
-├── visualize_cvae_evaluation.py    
-├── requirements.txt    
-├── LICENSE             
-└── README.md  
-```
 
 ## 📄 引用
 
