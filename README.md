@@ -46,7 +46,6 @@ This repository contains the official implementation of "Learning from Risk". We
 Visualizing the generation process across 4 diverse scenarios. 
 <br>
 **Left (Initial):** The benign traffic initialization.
-<br>
 **Right (Generated):** The safety-critical scenario guided by our LLM framework.
 <br>
 <i>Notice how the agents evolve to create more interactive and risky situations while maintaining realism.</i>
@@ -99,6 +98,39 @@ Visualizing the generation process across 4 diverse scenarios.
     ```bash
     pip install -r requirements.txt
     ```
+
+## 📂 Dataset Preparation
+
+Please download the required datasets and organize them in the `data/` directory.
+
+### 1. nuScenes Dataset
+For training/testing the traffic model and scenario generation, the **nuScenes dataset** is required.
+> **Note:** You only need to download the **Metadata** (e.g., v1.0-trainval_meta) and **Map expansion** (nuScenes-map-expansion-v1.3). The full dataset (images/lidar) is **NOT** required.
+
+*   Download from: [nuScenes Official Website](https://www.nuscenes.org/download)
+
+### 2. HighD Dataset
+Please download the **HighD dataset** for highway scenario experiments.
+
+*   Download from: [HighD Official Website](https://levelxdata.com/highd-dataset/)
+
+### 📂 Directory Structure
+After downloading, please organize your files as follows:
+
+```text  
+LFR/  
+├── data/  
+│   ├── nuscenes/  
+│   │   ├── maps/                 # Map expansion files  
+│   │   ├── v1.0-trainval/        # Metadata files  
+│   │   └── ...  
+│   ├── highd/  
+│   │   ├── 01_tracks.csv  
+│   │   ├── 01_tracksMeta.csv  
+│   │   └── ...  
+│   └── ...  
+├── src/  
+└── ...  
 
 ## 🚀 Usage
 
