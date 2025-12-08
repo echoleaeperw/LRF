@@ -1,108 +1,153 @@
+
+<div align="center">
+
 # Learning from Risk: LLM-Guided Generation of Safety-Critical Scenarios with Prior Knowledge
 
-![LFR_Framework](Fig_1.png)
-
-     
-## Installation
-
-1. Create conda environment
-
-   ```bash
-    conda create -n lrf python=3.8
-    ```
-3. Install the required packages:
-
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-## Initial scene generation
-
-nuscenes：
- ```bash
-    python src/train_traffic.py --config ./configs/train_traffic.cfg
- ```
-
----------------
-
-## Generation of scenarios with different risk levels
-
-Run the following command, and you can replace llm_model with your own model.
-
-     ```bash
-    python src/adv_scenario_gen.py \
-         --config configs/adv_gen_rule_based.cfg \
-         --ckpt model_ckpt/traffic_model.pth \
-         --use_llm \
-         --llm_model deepseek-reason
-     ```
 
 
-## 4. TODO List
-<div align="center">
+[![Paper](https://img.shields.io/badge/arXiv-PDF-b31b1b)](https://arxiv.org/abs/2511.20726)
+[![Project Page](https://img.shields.io/badge/Project-Page-green)](https://yourname.github.io/project-page/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+<!-- Authors -->
+<br>
+
+**Yuhang Wang**<sup>1</sup>, 
+**Heye Huang**<sup>2,3*</sup>, 
+**Zhenhua Xu**<sup>4</sup>, <br>
+**Kailai Sun**<sup>2,3</sup>, 
+**Baoshen Guo**<sup>2,3</sup>, 
+**Jinhua Zhao**<sup>2,3</sup>
+
+<br>
+
+<!-- Affiliations -->
+*<sup>1</sup>University of Chinese Academy of Sciences, China* <br>
+*<sup>2</sup>Singapore-MIT Alliance for Research and Technology Centre (SMART), Singapore* <br>
+*<sup>3</sup>Massachusetts Institute of Technology (MIT), USA* <br>
+*<sup>4</sup>Tsinghua University, China* <br>
+
+<br>
+
+<img src="Fig_1.png" width="100%" alt="LFR Framework"/>
+
+</div>
+
+## 📖 Abstract
+
+This repository contains the official implementation of "Learning from Risk". We propose a novel framework that utilizes **Large Language Models (LLMs)** to guide the generation of safety-critical driving scenarios. By incorporating prior knowledge, our method generates more realistic and challenging scenarios compared to rule-based approaches.
+
+---
 
 ## 🏗️ Qualitative Results
 
-<!-- 
-  布局策略：
-  - 只展示 4 组最精华的结果
-  - 保持 width="50%" 的大尺寸，确保细节清晰可见
-  - 移除了冗余的表头，用简洁的图注说明
--->
+<div align="center">
+
+Visualizing the generation process across 4 diverse scenarios. 
+<br>
+**Left (Initial):** The benign traffic initialization.
+<br>
+**Right (Generated):** The safety-critical scenario guided by our LLM framework.
+<br>
+<i>Notice how the agents evolve to create more interactive and risky situations while maintaining realism.</i>
 
 <table>
   <tr>
-    <th width="50%" style="text-align:center"><strong>Method A (Ours)</strong></th>
-    <th width="50%" style="text-align:center"><strong>Method B (Baseline)</strong></th>
+    <th width="50%" style="text-align:center"><strong>Initial Scene (Before)</strong></th>
+    <th width="50%" style="text-align:center"><strong>Generated Risk Scenario (After)</strong></th>
   </tr>
   
   <!-- Group 1 -->
   <tr>
-    <td><video src="https://github.com/user-attachments/assets/0179f497-9c1b-43e5-aa0e-3727f1973d1d"></td>
     <td><video src="https://github.com/user-attachments/assets/6a02e551-d16e-4f79-a111-a921f42e979c"></td>
+    <td><video src="https://github.com/user-attachments/assets/0179f497-9c1b-43e5-aa0e-3727f1973d1d"></td>
   </tr>
   
   <!-- Group 2 -->
   <tr>
-    <td><video src="https://github.com/user-attachments/assets/892bfb84-2771-4298-86ff-60a5a4c8ad5b"></td>
     <td><video src="https://github.com/user-attachments/assets/5718b287-2205-454c-bb7d-a13a6ce5bc10"></td>
+    <td><video src="https://github.com/user-attachments/assets/892bfb84-2771-4298-86ff-60a5a4c8ad5b"></td>
   </tr>
 
   <!-- Group 3 -->
   <tr>
-    <td><video src="https://github.com/user-attachments/assets/156efd88-a3a4-46c0-bc40-5adc4a2345c7"></td>
     <td><video src="https://github.com/user-attachments/assets/e01d31fb-9e25-42b9-a858-9108a6d012af"></td>
+    <td><video src="https://github.com/user-attachments/assets/156efd88-a3a4-46c0-bc40-5adc4a2345c7"></td>
   </tr>
 
   <!-- Group 4 -->
   <tr>
-    <td><video src="https://github.com/user-attachments/assets/089d4332-5972-4cd3-9b47-e482e70bdfe6"></td>
     <td><video src="https://github.com/user-attachments/assets/054f7016-7199-40ba-b2d9-109aecf04f24"></td>
+    <td><video src="https://github.com/user-attachments/assets/089d4332-5972-4cd3-9b47-e482e70bdfe6"></td>
   </tr>
 
 </table>
 
 </div>
-## 📄 引用
+---
 
-如果使用本项目，请引用：
+## 🛠️ Installation
+
+1. Create conda environment:
+    ```bash
+    # Fixed typo: assuming env name is related to paper acronym LFR
+    conda create -n lrf python=3.8
+    conda activate lrf
+    ```
+
+2. Install the required packages:
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+## 🚀 Usage
+
+### 1. Initial Scene Generation
+
+Generate traffic flow based on NuScenes dataset:
+
+```bash
+python src/train_traffic.py --config ./configs/train_traffic.cfg
+```
+
+### 2. Risk-Aware Scenario Generation
+
+Generate adversarial scenarios with different risk levels using LLM guidance. 
+> **Note:** You can replace `deepseek-reason` with other supported LLM models.
+
+```bash
+python src/adv_scenario_gen.py \
+     --config configs/adv_gen_rule_based.cfg \
+     --ckpt model_ckpt/traffic_model.pth \
+     --use_llm \
+     --llm_model deepseek-reason
+```
+
+---
+
+## 📝 TODO List
+
+- [ ] Releasing the code for generating highD scenarios.
+
+
+## 📄 Citation
+
+If you find this work useful in your research, please cite:
 
 ```bibtex
-@inproceedings{,
+@inproceedings{wang2025learning,
   title={Learning from Risk: LLM-Guided Generation of Safety-Critical Scenarios with Prior Knowledge},
-  author={...},
-  booktitle={CVPR},
-  year={2022}
+  author={Wang, Yuhang and Huang, Heye and Xu, Zhenhua and Sun, Kailai and Guo, Baoshen and Zhao, Jinhua},
+  year={2025}
 }
 ```
 
+## 📝 License
 
-## 📝 许可证
+This project is licensed under the [MIT License](LICENSE).
 
-本项目采用 MIT 许可证 - 详见 [LICENSE](LICENSE) 文件
+**Disclaimer:** This project is for academic research purposes only. Please conduct sufficient safety testing before deploying in real-world autonomous driving systems.
 
-
-
-**注意**：本项目用于学术研究目的。在自动驾驶系统中部署前，请进行充分的安全测试。
-
-最后更新：2025年11月10日
+<div align="right">
+Last update: 2025-11-10
+</div>
