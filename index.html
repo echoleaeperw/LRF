@@ -1,0 +1,245 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="Learning from Risk: LLM-Guided Generation of Safety-Critical Scenarios">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Learning from Risk - Project Page</title>
+
+  <!-- 引入 Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <!-- 引入 Bulma CSS 框架 (学术主页标配) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    body {
+      font-family: 'Google Sans', sans-serif;
+      background-color: #fcfcfc;
+    }
+    .title.is-1 { font-weight: 800; font-size: 2.5rem; }
+    .author-block { font-size: 1.25rem; }
+    .publication-venue { color: #555; font-weight: bold; margin-top: 10px; }
+    
+    /* 视频卡片样式 */
+    .video-compare-container {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+    .video-label {
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 8px;
+      color: #4a4a4a;
+    }
+    video {
+      border-radius: 5px;
+      width: 100%;
+    }
+    
+    /* 图片容器 */
+    .framework-container {
+      box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <!-- 标题 -->
+          <h1 class="title is-1 publication-title">
+            Learning from Risk: <br>
+            LLM-Guided Generation of Safety-Critical Scenarios with Prior Knowledge
+          </h1>
+          
+          <!-- 作者列表 (请自行修改名字和链接) -->
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="#">Author One</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="#">Author Two</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="#">Author Three</a><sup>2</sup>
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>University A,</span>
+            <span class="author-block"><sup>2</sup>University B</span>
+          </div>
+          
+
+          <!-- 按钮链接 -->
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link -->
+              <span class="link-block">
+                <a href="#" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <!-- Code Link -->
+              <span class="link-block">
+                <a href="https://github.com/你的github用户名/你的仓库名" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fab fa-github"></i></span>
+                  <span>Code</span>
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 摘要部分 -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Generating safety-critical scenarios is crucial for evaluating autonomous driving systems. 
+            Existing rule-based methods often lack diversity, while data-driven methods struggle with controllability.
+            We propose <strong>Learning from Risk (LFR)</strong>, a novel framework that leverages Large Language Models (LLMs) 
+            incorporating prior knowledge to guide the generation process.
+          </p>
+          <p>
+            Our approach demonstrates superior performance in creating realistic, high-risk traffic scenarios compared to state-of-the-art baselines.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 框架图部分 -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full">
+        <h2 class="title is-3">Framework</h2>
+        <!-- 注意：确保 Fig_1.png 在仓库根目录，或者修改下面的 src 路径 -->
+        <div class="framework-container">
+          <img src="Fig_1.png" alt="Method Overview" style="width: 100%;">
+        </div>
+        <div class="content has-text-justified" style="margin-top: 15px;">
+          <p>
+            Figure 1: Overview of our proposed framework. The LLM acts as a high-level planner, reasoning about risk factors and guiding the low-level simulation agents.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 视频对比部分 (重点) -->
+<section class="section" style="background-color: #f5f5f5;">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Qualitative Results</h2>
+    <p class="subtitle has-text-centered" style="margin-bottom: 30px;">
+      Comparison between <b>Ours (Method A)</b> and the <b>Baseline (Method B)</b> across different scenarios.
+    </p>
+
+    <!-- Group 1 -->
+    <div class="video-compare-container">
+      <div class="columns is-vcentered">
+        <div class="column is-6">
+          <div class="video-label">Method A (Ours)</div>
+          <video autoplay muted loop playsinline src="https://github.com/user-attachments/assets/0179f497-9c1b-43e5-aa0e-3727f1973d1d"></video>
+        </div>
+        <div class="column is-6">
+          <div class="video-label">Method B (Baseline)</div>
+          <video autoplay muted loop playsinline src="https://github.com/user-attachments/assets/6a02e551-d16e-4f79-a111-a921f42e979c"></video>
+        </div>
+      </div>
+      <p class="has-text-centered is-size-7"><i>Scenario 1: Complex intersection handling</i></p>
+    </div>
+
+    <!-- Group 2 -->
+    <div class="video-compare-container">
+      <div class="columns is-vcentered">
+        <div class="column is-6">
+          <div class="video-label">Method A (Ours)</div>
+          <video autoplay muted loop playsinline src="https://github.com/user-attachments/assets/892bfb84-2771-4298-86ff-60a5a4c8ad5b"></video>
+        </div>
+        <div class="column is-6">
+          <div class="video-label">Method B (Baseline)</div>
+          <video autoplay muted loop playsinline src="https://github.com/user-attachments/assets/5718b287-2205-454c-bb7d-a13a6ce5bc10"></video>
+        </div>
+      </div>
+    </div>
+
+    <!-- Group 3 -->
+    <div class="video-compare-container">
+      <div class="columns is-vcentered">
+        <div class="column is-6">
+          <div class="video-label">Method A (Ours)</div>
+          <video autoplay muted loop playsinline src="https://github.com/user-attachments/assets/156efd88-a3a4-46c0-bc40-5adc4a2345c7"></video>
+        </div>
+        <div class="column is-6">
+          <div class="video-label">Method B (Baseline)</div>
+          <video autoplay muted loop playsinline src="https://github.com/user-attachments/assets/e01d31fb-9e25-42b9-a858-9108a6d012af"></video>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Group 4 -->
+    <div class="video-compare-container">
+      <div class="columns is-vcentered">
+        <div class="column is-6">
+          <div class="video-label">Method A (Ours)</div>
+          <video autoplay muted loop playsinline src="https://github.com/user-attachments/assets/089d4332-5972-4cd3-9b47-e482e70bdfe6"></video>
+        </div>
+        <div class="column is-6">
+          <div class="video-label">Method B (Baseline)</div>
+          <video autoplay muted loop playsinline src="https://github.com/user-attachments/assets/054f7016-7199-40ba-b2d9-109aecf04f24"></video>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- BibTeX 引用 -->
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@inproceedings{YourPaper202X,
+  title={Learning from Risk: LLM-Guided Generation of Safety-Critical Scenarios with Prior Knowledge},
+  author={Lastname, Firstname and Lastname, Firstname},
+  booktitle={CVPR},
+  year={202X}
+}</code></pre>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <p>
+        Page template borrowed from <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>.
+      </p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
