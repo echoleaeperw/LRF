@@ -58,26 +58,26 @@ Visualizing the generation process across 4 diverse scenarios.
   
   <!-- Group 1 -->
   <tr>
-    <td><video src="https://github.com/user-attachments/assets/6a02e551-d16e-4f79-a111-a921f42e979c"></td>
-    <td><video src="https://github.com/user-attachments/assets/0179f497-9c1b-43e5-aa0e-3727f1973d1d"></td>
+    <td><video src="https://github.com/user-attachments/assets/812f14f5-d84d-4704-aeaa-62877d35e693"></td>
+    <td><video src="https://github.com/user-attachments/assets/239e4c14-bd6e-4867-8402-c6e6f204bd76"></td>
   </tr>
   
   <!-- Group 2 -->
   <tr>
-    <td><video src="https://github.com/user-attachments/assets/5718b287-2205-454c-bb7d-a13a6ce5bc10"></td>
-    <td><video src="https://github.com/user-attachments/assets/892bfb84-2771-4298-86ff-60a5a4c8ad5b"></td>
+    <td><video src="https://github.com/user-attachments/assets/b6538b6e-c4ea-4da0-801f-892ea5936db5"></td>
+    <td><video src="https://github.com/user-attachments/assets/9f40b4d3-6b4f-455c-9012-88a334badb4c"></td>
   </tr>
 
   <!-- Group 3 -->
   <tr>
-    <td><video src="https://github.com/user-attachments/assets/e01d31fb-9e25-42b9-a858-9108a6d012af"></td>
-    <td><video src="https://github.com/user-attachments/assets/156efd88-a3a4-46c0-bc40-5adc4a2345c7"></td>
+    <td><video src="https://github.com/user-attachments/assets/83d3cfe1-700d-4308-a607-5fed80eccea2"></td>
+    <td><video src="https://github.com/user-attachments/assets/e720a592-7ebe-4e4c-b4ab-8d7ebb14e1a3"></td>
   </tr>
 
   <!-- Group 4 -->
   <tr>
-    <td><video src="https://github.com/user-attachments/assets/054f7016-7199-40ba-b2d9-109aecf04f24"></td>
-    <td><video src="https://github.com/user-attachments/assets/089d4332-5972-4cd3-9b47-e482e70bdfe6"></td>
+    <td><video src="https://github.com/user-attachments/assets/b5efb473-2461-46c5-958f-e245112f60ea"></td>
+    <td><video src="https://github.com/user-attachments/assets/de0ebb30-bef6-45eb-889c-9d77691ae0b0"></td>
   </tr>
 
 </table>
