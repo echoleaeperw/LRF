@@ -4,7 +4,6 @@
 # Learning from Risk: LLM-Guided Generation of Safety-Critical Scenarios with Prior Knowledge
 
 [![Paper](https://img.shields.io/badge/arXiv-PDF-b31b1b)](https://arxiv.org/abs/2511.20726)
-[![Project Page](https://img.shields.io/badge/Project-Page-green)](https://yourname.github.io/project-page/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 <!-- Authors -->
