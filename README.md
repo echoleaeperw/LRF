@@ -183,11 +183,9 @@ STRIVE_github_ready/
 │   ├── train_traffic.py           # ★ training entry
 │   ├── test_traffic.py            # CVAE traffic-model evaluation
 │   ├── refine_traffic_optim.py    # collision-free refinement
-│   ├── eval_adv_gen.py            # qualitative + quantitative scenario eval
-│   ├── eval_planner.py            # planner collision-rate eval
-│   ├── cluster_scenarios.py       # re-run clustering on your own scenarios
 │   ├── ablation_weight_search.py  # grid / Bayesian search for fixed weights
 │   ├── ablation_llm_robustness.py # LLM stability ablation
+│   ├── offroad_analysis.py        # § 7.3 ORR / dynamics analysis (called by adv_scenario_gen)
 │   ├── datasets/  llm/  losses/  models/  planners/  utils/
 ├── longterm/                      # LLM multi-agent framework
 │   ├── agents/   (analysis, longtail_assessor, driver, reflection, flow)
@@ -196,11 +194,11 @@ STRIVE_github_ready/
 │   └── knowledge/(behavior_corpus.json, loss_functions_kb.md, …)
 ├── configs/                       # all .cfg + LLM YAML
 ├── data/clustering/               # cluster.pkl, cluster_labels.txt
-├── eval/                          # CTG++ Table-1 metrics, CVAE quality
+├── eval/                          # CTG++ Table-6 metrics (§7.2)
 ├── model_ckpt/                    # pretrained weights go here
-├── run_comparison_eval.py         # multi-method comparison → CSV + LaTeX
-├── run_adversarial_evaluation.py  # comprehensive trajectory metrics
-├── run_random_baseline.py         # random-perturbation baseline
+├── run_adversarial_evaluation.py  # comprehensive trajectory metrics (extras, see 运行指令.md)
+├── run_eval_rule_based.py         # rule-based planner sweep (extras, see 运行指令.md)
+├── run_random_baseline.py         # random-perturbation baseline (§6.3)
 └── requirements.txt
 ```
 
@@ -305,7 +303,7 @@ python src/refine_traffic_optim.py \
 ### 7.1 Long-tail Coverage Rate (LCR)
 
 ```bash
-python src/utils/lcr_evaluator.py \
+python eval/lcr_evaluator.py \
     --scenario_dir out/adv_gen_rule_based_out/scenario_results \
     --data_dir data/nuscenes --data_version trainval \
     --ttc_tau 1.5 --tlc_tau 0.8 --thw_tau 1.0 --strict \
@@ -335,7 +333,23 @@ cat out/adv_gen_rule_based_out/dynamics_analysis/offroad_results.json   # ORR
 
 ---
 
-## 📝 8. TODO
+## 🩹 8. Troubleshooting
+
+| Symptom | Likely cause | Fix |
+|---|---|---|
+| Attackers leave the road | `loss_coll_env` / `loss_kine_*` too low | raise `loss_coll_env` to 30, `loss_kine_veh` to 1.0 |
+| Unphysical accelerations | `loss_motion_prior_atk` too small | keep `loss_motion_prior_atk ≥ 5e-4` |
+| `yaw_rate` loss has no effect | output is small (~0–0.26 rad/s) | raise `loss_yaw_rate` to ≥ 15 |
+| TTC ineffective at start (same-speed follow) | TTC ≈ ∞ → zero gradient | enable `loss_thw` (`2.0–3.0`) in parallel |
+| LLM call timeout / 5xx | wrong API key or unreliable provider | switch to `deepseek-chat`, or `--use_llm False` |
+| Collisions look like clipping | optimiser too aggressive | lower `lr`, raise `loss_coll_veh*`, raise `motion_prior_atk` |
+| OOM | too many agents per batch | lower `batch_size` in the `.cfg` |
+
+Per-scene `feasibility_reports/feasibility_batch*.json` together with `dynamics_analysis/` are the single source of truth for kinematic and collision-quality diagnostics — always check them after a run.
+
+---
+
+## 📝 9. TODO
 
 - [ ] Release the HighD-scenario pipeline (paper Section 3.2 uses joint highD+nuScenes training)
 - [ ] Provide a single-command Docker image for reproduction
