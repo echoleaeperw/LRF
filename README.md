@@ -33,13 +33,11 @@
 
 ## 📖 Abstract
 
-This repository is the official implementation of **"Learning from Risk: LLM-Guided Generation of Safety-Critical Scenarios with Prior Knowledge"**. Built on top of the [STRIVE](https://nv-tlabs.github.io/STRIVE/) (CVPR 2022) traffic prior, we add an **LLM multi-agent pipeline** that:
+Autonomous driving faces severe challenges in rare long-tail events and complex multi-agent interactions. These scenarios are extremely scarce in real-world data but are crucial for robust safety validation. This paper introduces a high-fidelity scene generation framework that combines a Conditional Variational Autoencoder (CVAE) with a Large Language Model (LLM).
 
-1. analyses each scene with an `AnalysisAgent` and selects an **attacker vehicle**,
-2. quantifies long-tail potential with a deterministic `LongTailAssessor`,
-3. uses a `ReflectionAgent` (LLM) to produce **scenario-adaptive loss weights** for the adversarial optimisation.
+The CVAE learns the underlying traffic structure by encoding historical trajectories and map information from large-scale naturalistic driving datasets, thereby generating physically consistent base scenarios. Building on this foundation, the LLM acts as an adversarial reasoning engine, parsing unstructured scene descriptions into domain-specific loss functions and dynamically guiding scene generation across different risk levels. This knowledge-driven optimization method strikes a balance between realism and controllability, ensuring that the generated scenes are both plausible and risk-sensitive.
 
-This README focuses on **end-to-end reproduction** — from environment setup, data preparation, pretrained weights, to training, scenario generation, ablations, and evaluation.
+Extensive experiments on the CARLA and SMARTS platforms demonstrate that our framework significantly improves coverage of high-risk and long-tail events, enhances the alignment between simulated and real-world traffic distributions, and exposes autonomous driving systems to more challenging interaction scenarios than those produced by existing rule-driven or data-driven methods. These results open new avenues for safety validation, enabling principled stress testing of autonomous systems under rare but consequential events.
 
 ---
 
@@ -110,27 +108,15 @@ You only need **metadata** and **map expansion** — full sensor data (images / 
 * Download from [https://www.nuscenes.org/download](https://www.nuscenes.org/download)
 * The codebase also supports the `v1.0-mini` split out-of-the-box for smoke tests.
 
-### Provided clustering files
-
-We ship the paper's clustering under `data/clustering/`:
-
-```
-data/clustering/
-├── cluster.pkl         # collision-pattern clusters
-└── cluster_labels.txt  # human-readable labels
-```
-
 ### Final directory layout
 
 ```text
-STRIVE/
+LRF_release/
 ├── data/
-│   ├── nuscenes/
-│   │   └── trainval/
-│   │       ├── v1.0-trainval/      # metadata JSONs
-│   │       └── maps/               # basemap / expansion / prediction / *.png
-│   ├── clustering/                 # shipped in this repo
-│   └── strive_scenarios/           # (optional) pre-generated scenarios from authors
+│   └── nuscenes/
+│       └── trainval/
+│           ├── v1.0-trainval/      # metadata JSONs
+│           └── maps/               # basemap / expansion / prediction / *.png
 ├── model_ckpt/                     # see §3 — put .pth files here
 ├── configs/
 ├── src/
@@ -193,12 +179,13 @@ STRIVE_github_ready/
 │   ├── prompts/  (analysis_system.md, analysis_human.md, …)
 │   └── knowledge/(behavior_corpus.json, loss_functions_kb.md, …)
 ├── configs/                       # all .cfg + LLM YAML
-├── data/clustering/               # cluster.pkl, cluster_labels.txt
-├── eval/                          # CTG++ Table-6 metrics (§7.2)
+├── eval/                          # all evaluation entry points (§7)
+│   ├── lcr_evaluator.py             # Long-tail Coverage Rate (§7.1)
+│   ├── eval_ctgpp_metrics_v2.py     # CTG++ Table-6 metrics (§7.2)
+│   ├── run_adversarial_evaluation.py # comprehensive trajectory metrics
+│   ├── run_eval_rule_based.py        # rule-based planner sweep
+│   └── run_random_baseline.py        # random-perturbation baseline (§6.3)
 ├── model_ckpt/                    # pretrained weights go here
-├── run_adversarial_evaluation.py  # comprehensive trajectory metrics (extras, see 运行指令.md)
-├── run_eval_rule_based.py         # rule-based planner sweep (extras, see 运行指令.md)
-├── run_random_baseline.py         # random-perturbation baseline (§6.3)
 └── requirements.txt
 ```
 
