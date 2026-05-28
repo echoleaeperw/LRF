@@ -1,0 +1,62 @@
+{
+  "default_provider": "siliconflow",
+  "_comment_security": "All API keys are placeholders. Set the corresponding environment variable instead, e.g. export SILICONFLOW_API_KEY=sk-... / DEEPSEEK_API_KEY=... / OPENAI_API_KEY=... — see README §4.",
+  "providers": {
+    "siliconflow": {
+      "comment": "SiliconFlow GLM-4.7 / GLM5 — OpenAI-compatible, fast & stable in China",
+      "api_key": "YOUR_SILICONFLOW_API_KEY",
+      "base_url": "https://api.siliconflow.cn/v1",
+      "model": "Pro/zai-org/GLM-5",
+      "max_tokens": 20000
+    },
+    "deepseek": {
+      "comment": "DeepSeek-V3 (latest chat model) — fast, high quality",
+      "api_key": "YOUR_DEEPSEEK_API_KEY",
+      "base_url": "https://api.deepseek.com/v1",
+      "model": "deepseek-chat",
+      "max_tokens": 8192
+    },
+    "deepseek-r1": {
+      "comment": "DeepSeek-R1 (reasoning model) — slow (~4min) but deeper reasoning",
+      "api_key": "YOUR_DEEPSEEK_API_KEY",
+      "base_url": "https://api.deepseek.com/v1",
+      "model": "deepseek-reasoner",
+      "max_tokens": 16000
+    },
+    "gemini-flash": {
+      "comment": "Gemini 2.0 Flash — 1M context window, no KB compression needed, fast & free",
+      "api_key": "YOUR_GOOGLE_API_KEY",
+      "base_url": "https://generativelanguage.googleapis.com/v1beta/openai/",
+      "model": "gemini-2.0-flash",
+      "max_tokens": 8192
+    },
+    "gemini-pro": {
+      "comment": "Gemini 2.5 Pro — 2M context window, most powerful Gemini model",
+      "api_key": "YOUR_GOOGLE_API_KEY",
+      "base_url": "https://generativelanguage.googleapis.com/v1beta/openai/",
+      "model": "gemini-2.5-pro-preview-03-25",
+      "max_tokens": 16384
+    },
+    "poe": {
+      "api_key": "YOUR_POE_API_KEY",
+      "bot_name": "gemini-3.1-pro",
+      "comment": "Requires proxy — api.poe.com blocked without VPN. Set proxy_url or HTTPS_PROXY."
+    },
+    "openai": {
+      "api_key": "YOUR_OPENAI_API_KEY",
+      "base_url": "https://api.openai.com/v1",
+      "model": "gpt-4o"
+    },
+    "claude": {
+      "api_key": "YOUR_CLAUDE_API_KEY",
+      "base_url": "https://yibuapi.com/v1",
+      "model": "claude-4-sonnet",
+      "max_tokens": 16000
+    },
+    "anthropic": {
+      "api_key": "YOUR_ANTHROPIC_API_KEY",
+      "base_url": "https://chat.cloudapi.vip",
+      "model": "claude-sonnet-4-20250514"
+    }
+  }
+}
