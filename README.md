@@ -360,6 +360,5 @@ Code in this repository is released under the [MIT License](LICENSE). Pretrained
 
 **Disclaimer:** this project is for academic research only. Conduct sufficient safety testing before deploying any output in real-world autonomous-driving systems.
 
-<div align="right">
-Last update: 2026-05-28
+
 </div>
